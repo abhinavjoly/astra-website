@@ -38,7 +38,6 @@ const Home = () => {
           className="relative z-10 text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-orbitron font-black text-text-primary tracking-tactical mb-4 leading-none"
         >
           <span className="block">ASTRA</span>
-          <span className="inline-block bg-accent-orange text-bg-base text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-widest mt-4 px-3 sm:px-5 py-2">WE ARE HIRING</span>
         </motion.h1>
 
         <motion.div variants={itemVariants} className="mb-10">
