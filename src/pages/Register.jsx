@@ -19,6 +19,9 @@ const Register = () => {
         <h1 className="text-4xl md:text-7xl font-orbitron font-black mb-4 tracking-tighter italic">
           JOIN <span className="text-accent-orange">ASTRA</span>
         </h1>
+        <span className="inline-block bg-accent-orange text-bg-base text-2xl sm:text-3xl md:text-4xl tracking-widest px-4 sm:px-5 py-2 mb-6 font-orbitron font-black uppercase">
+          WE ARE HIRING
+        </span>
         <p className="max-w-2xl mx-auto text-text-muted font-inter text-lg leading-relaxed">
           Be part of a student-led club building awareness, practical expertise, and meaningful connections across the defence technology ecosystem.
         </p>
