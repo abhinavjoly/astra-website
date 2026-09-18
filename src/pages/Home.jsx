@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
 import { HiArrowDown, HiArrowRight, HiLightningBolt, HiPlay, HiRefresh, HiShieldCheck } from 'react-icons/hi';
 import { GiBrain, GiDeliveryDrone, GiSatelliteCommunication, GiRobotLeg } from 'react-icons/gi';
@@ -34,8 +34,100 @@ function Rocket({ landing, replay }) {
   );
 }
 
+
+function DefenseLaunchLoader({ onComplete }) {
+  const [phase, setPhase] = useState(0);
+  const phases = [
+    ['01', 'SYSTEM BOOT', 'Initializing ASTRA defence interface'],
+    ['02', 'INTERCEPTOR ARMED', 'Guidance system acquiring target'],
+    ['03', 'LAUNCH SEQUENCE', 'Interceptor departing launch rail'],
+    ['04', 'TARGET LOCK', 'Tracking vector established'],
+    ['05', 'INTERCEPTION', 'Defence system impact simulation'],
+  ];
+
+  useEffect(() => {
+    const ids = [
+      setTimeout(() => setPhase(1), 700),
+      setTimeout(() => setPhase(2), 1500),
+      setTimeout(() => setPhase(3), 2850),
+      setTimeout(() => setPhase(4), 3900),
+      setTimeout(() => onComplete(), 5250),
+    ];
+    return () => ids.forEach(clearTimeout);
+  }, [onComplete]);
+
+  useEffect(() => {
+    const original = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = original; };
+  }, []);
+
+  return (
+    <div className="defense-loader" role="status" aria-live="polite">
+      <div className="loader-noise" />
+      <div className="loader-grid" />
+      <div className="loader-scan" />
+      <div className="loader-topbar">
+        <span>ASTRA DEFENCE NETWORK</span>
+        <b>SECURE BOOT // 001</b>
+      </div>
+
+      <div className="loader-corner loader-corner-tl">BMSIT&amp;M // BENGALURU<br /><strong>EXPERIMENTAL DEFENCE SYSTEMS</strong></div>
+      <div className="loader-corner loader-corner-tr">LAT 13.1341 N<br />LON 77.5694 E</div>
+      <div className="loader-side-code">ASTRA / INTERCEPTOR TEST RANGE / LIVE</div>
+
+      <div className="loader-target">
+        <div className="target-rings"><i /><i /><i /></div>
+        <div className="target-crosshair"><span /><b /></div>
+        <strong>HOSTILE VECTOR</strong>
+        <em>TGT-047 // LOCKED</em>
+      </div>
+
+      <div className="launch-site">
+        <div className="silo-glow" />
+        <div className="silo"><span className="silo-door" /><span className="silo-mark">A</span></div>
+        <div className="launch-flame"><i /><i /><i /></div>
+        <span className="launch-label">ASTRA-01 / LAUNCH PLATFORM</span>
+      </div>
+
+      <div className="interceptor">
+        <div className="interceptor-trail" />
+        <div className="interceptor-body"><span className="interceptor-nose" /><span className="interceptor-band" /><span className="interceptor-fin f1" /><span className="interceptor-fin f2" /><b>A</b></div>
+        <div className="interceptor-engine"><i /><i /><i /></div>
+      </div>
+
+      <div className="impact-burst"><i /><i /><i /><b>INTERCEPT</b></div>
+      <div className="shockwave" />
+
+      <div className="loader-hud-left">
+        <span>FLIGHT VECTOR</span>
+        <b>↗ 084°</b>
+        <span>VELOCITY</span>
+        <b>7.8 MACH</b>
+        <span>GUIDANCE</span>
+        <b className="green">NOMINAL</b>
+      </div>
+
+      <div className="loader-hud-right">
+        <span>DEFENCE GRID</span><b>ONLINE</b>
+        <div className="loader-bars">{Array.from({ length: 10 }).map((_, i) => <i key={i} style={{ '--h': `${25 + ((i * 17) % 65)}%` }} />)}</div>
+      </div>
+
+      <div className="loader-status">
+        <div className="loader-status-head"><span>{phases[phase][0]}</span><b>{phases[phase][1]}</b></div>
+        <p>{phases[phase][2]}</p>
+        <div className="loader-progress"><i style={{ width: `${Math.min(100, phase * 25 + 8)}%` }} /></div>
+        <small>ASTRA // INITIALIZING EXPERIENCE</small>
+      </div>
+
+      <div className="loader-bottom"><span>DEFENCE // TECHNOLOGY // ENGINEERING</span><b>ALL SYSTEMS NOMINAL</b></div>
+    </div>
+  );
+}
+
 const Home = () => {
   const heroRef = useRef(null);
+  const [loading, setLoading] = useState(true);
   const [landing, setLanding] = useState(true);
   const [activeDomain, setActiveDomain] = useState(0);
   const [time, setTime] = useState('00:00:00');
@@ -62,6 +154,8 @@ const Home = () => {
 
   const replay = () => { setLanding(false); requestAnimationFrame(() => setLanding(true)); };
   const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  const finishLoading = useCallback(() => setLoading(false), []);
+
   const launch = () => {
     setLaunched(true);
     setLanding(false);
@@ -72,7 +166,9 @@ const Home = () => {
   const particles = useMemo(() => Array.from({ length: 18 }), []);
 
   return (
-    <motion.div id="home" className="astra-hyper" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <>
+      {loading && <DefenseLaunchLoader onComplete={finishLoading} />}
+      <motion.div id="home" className="astra-hyper" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <div className="cursor-glow" style={{ left: `${pointer.x}%`, top: `${pointer.y}%` }} />
       <div className="scroll-progress"><span style={{ transform: `scaleY(${scrollYProgress.get?.() || 0})` }} /></div>
 
@@ -161,7 +257,8 @@ const Home = () => {
         <div className="final-copy"><p className="overline">04 / NEXT OPERATOR</p><h2>YOUR<br /><span>MISSION</span><br />STARTS NOW.</h2><p>Bring the curiosity. Bring the prototype. Bring the impossible-looking idea.</p><button className="hyper-hot" onClick={() => scrollTo('register')}>JOIN ASTRA <HiArrowRight /></button></div>
         <div className="final-code">ASTRA<br /><small>BMSIT&amp;M // BENGALURU</small></div>
       </section>
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 
