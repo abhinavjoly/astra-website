@@ -61,3 +61,49 @@
 
 @media(max-width:1000px){.hiring-grid{grid-template-columns:1fr;gap:55px}.hiring-panel{max-width:720px}.hiring-copy h2{font-size:clamp(56px,12vw,100px)}}
 @media(max-width:650px){.hiring-section{padding:85px 20px 100px}.hiring-topline{margin-bottom:45px;font-size:6px}.hiring-topline span:last-child{display:none}.hiring-copy h2{font-size:60px}.hiring-copy p{font-size:16px}.hiring-panel{min-height:300px}.hiring-panel-body{padding:50px 30px;gap:18px}.hiring-mark{width:72px;height:72px;font-size:42px}.hiring-panel-body strong{font-size:14px}.hiring-panel-body span{font-size:12px}.hiring-panel-foot{font-size:5px}.hiring-panel-foot span:first-child{display:none}.loader-crosshair{left:73%;top:22%;width:90px;height:90px}.target-lock{left:73%;top:22%}.interceptor-loader{transform-origin:center bottom}.loader-scene{overflow:hidden}}
+
+/* ORBITAL LOADER: the only continuous motion on the page */
+.astra-pro * { animation: none !important; transition: none !important; }
+.astra-pro .pro-marquee > div { animation: none !important; transform: none !important; }
+.pointer-light,.hero-particles,.rocket-object,.flight-replay,.hero-launch { display:none !important; }
+
+.earth-loader { background:#030404; }
+.earth-loader .loader-grid { opacity:.55; background-size:72px 72px; }
+.loader-vignette{position:absolute;inset:0;background:radial-gradient(circle at 60% 52%,transparent 0 28%,rgba(0,0,0,.2) 52%,rgba(0,0,0,.8) 100%);pointer-events:none;z-index:1}
+.earth-loader-copy{position:absolute;left:5vw;top:22%;z-index:8;max-width:430px}
+.earth-loader-copy small{font:700 8px var(--font-orbitron);letter-spacing:.24em;color:#777}
+.earth-loader-copy h1{margin:14px 0 10px;font:900 clamp(70px,10vw,150px)/.8 var(--font-orbitron);letter-spacing:-.08em;color:#f2f2f2}
+.earth-loader-copy h1 span{color:var(--orange)}
+.earth-loader-copy p{margin:0;color:#777;font:700 9px var(--font-orbitron);letter-spacing:.18em}
+.earth-scene{position:absolute;right:7vw;top:50%;width:min(720px,54vw);height:min(620px,65vh);transform:translateY(-50%);z-index:4}
+.earth-body{position:absolute;left:50%;top:52%;width:310px;height:310px;transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;background:radial-gradient(circle at 32% 27%,#50575a 0,#24292b 28%,#0c1011 68%,#050606 100%);border:1px solid #555;box-shadow:0 0 0 1px rgba(255,107,0,.08),0 0 110px rgba(255,107,0,.12),inset -38px -20px 65px rgba(0,0,0,.8)}
+.earth-body:before{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 12%,rgba(255,255,255,.05) 13% 14%,transparent 15% 34%,rgba(255,255,255,.035) 35% 36%,transparent 37%),radial-gradient(circle at 65% 35%,rgba(255,107,0,.08),transparent 34%)}
+.earth-land{position:absolute;background:#58605f;opacity:.62;filter:blur(.2px);clip-path:polygon(5% 20%,25% 8%,42% 14%,52% 28%,44% 39%,28% 35%,19% 50%,8% 44%)}
+.land-a{width:145px;height:115px;left:45px;top:62px;transform:rotate(-10deg)}
+.land-b{width:105px;height:135px;right:35px;top:98px;transform:rotate(25deg);clip-path:polygon(10% 5%,35% 0,62% 15%,95% 23%,77% 42%,86% 62%,58% 70%,45% 98%,25% 73%,28% 50%,5% 34%)}
+.land-c{width:115px;height:90px;left:88px;bottom:25px;transform:rotate(18deg);clip-path:polygon(4% 35%,26% 8%,48% 20%,76% 5%,95% 35%,73% 51%,82% 80%,49% 90%,23% 73%)}
+.earth-grid-lines{position:absolute;inset:-20%;background:repeating-linear-gradient(90deg,transparent 0 47px,rgba(255,255,255,.055) 48px 49px),repeating-linear-gradient(0deg,transparent 0 47px,rgba(255,255,255,.045) 48px 49px);border-radius:50%;transform:rotate(14deg);opacity:.45}
+.earth-body span{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);font:700 7px var(--font-orbitron);letter-spacing:.16em;color:#aaa;white-space:nowrap}
+.earth-glow{position:absolute;left:50%;top:52%;width:430px;height:430px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(255,107,0,.08),transparent 62%);pointer-events:none}
+.earth-horizon{position:absolute;left:50%;top:52%;width:520px;height:190px;transform:translate(-50%,-50%) rotate(-12deg);border:1px solid rgba(255,107,0,.22);border-radius:50%;box-shadow:0 0 45px rgba(255,107,0,.05)}
+.earth-orbit{position:absolute;left:50%;top:52%;border:1px solid rgba(255,107,0,.36);border-radius:50%;transform:translate(-50%,-50%) rotate(-16deg)}
+.orbit-primary{width:580px;height:210px;animation:orbitSpin 4.8s linear infinite}
+.orbit-secondary{width:475px;height:165px;transform:translate(-50%,-50%) rotate(34deg);border-color:#343838}
+.orbit-missile{position:absolute;left:50%;top:-35px;width:36px;height:120px;transform:translateX(-50%) rotate(16deg);transform-origin:center center}
+.missile-nose{position:absolute;top:0;left:50%;transform:translateX(-50%);border-left:13px solid transparent;border-right:13px solid transparent;border-bottom:25px solid #e8e8e8}
+.missile-body{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:25px;height:67px;border-radius:13px 13px 6px 6px;background:linear-gradient(90deg,#626566,#f0f0f0 46%,#8c8f8e);border:1px solid #222;display:grid;place-items:center}
+.missile-body span{font:900 9px var(--font-orbitron);color:#222}
+.missile-body:after{content:'';position:absolute;left:0;right:0;top:30px;height:4px;background:var(--orange)}
+.missile-fin{position:absolute;top:63px;width:13px;height:26px;background:#3c3f40;clip-path:polygon(0 100%,100% 100%,75% 0)}
+.missile-fin.left{left:-1px}.missile-fin.right{right:-1px;transform:scaleX(-1)}
+.missile-flame{position:absolute;left:50%;top:84px;transform:translateX(-50%);width:13px;height:38px;background:linear-gradient(#fff,#ffb000,var(--orange),transparent);clip-path:polygon(25% 0,75% 0,100% 62%,50% 100%,0 62%);filter:drop-shadow(0 0 8px rgba(255,107,0,.7))}
+.earth-crosshair{position:absolute;left:50%;top:52%;width:355px;height:355px;transform:translate(-50%,-50%);border:1px dashed rgba(255,255,255,.1);border-radius:50%}
+.earth-crosshair i{position:absolute;background:var(--orange);opacity:.7}.earth-crosshair i:nth-child(1){left:50%;top:-14px;width:1px;height:28px}.earth-crosshair i:nth-child(2){left:50%;bottom:-14px;width:1px;height:28px}.earth-crosshair i:nth-child(3){top:50%;left:-14px;width:28px;height:1px}.earth-crosshair i:nth-child(4){top:50%;right:-14px;width:28px;height:1px}
+.orbit-label{position:absolute;font:700 7px var(--font-orbitron);letter-spacing:.14em;color:#666}.orbit-label b{display:block;color:#ddd;margin-top:5px}.label-one{left:5%;top:23%}.label-two{right:1%;bottom:24%}.label-three{left:10%;bottom:18%}.label-three b{color:var(--orange)}
+.loader-status-card{position:absolute;right:5vw;bottom:17%;width:190px;border:1px solid #2a2d2d;background:#070808;padding:18px;z-index:8;font:700 7px var(--font-orbitron);letter-spacing:.1em}.status-top{display:flex;justify-content:space-between;border-bottom:1px solid #222;padding-bottom:12px;margin-bottom:12px;color:#777}.status-top b{color:#6bd98a}.status-line{display:flex;justify-content:space-between;padding:6px 0;color:#555}.status-line strong{color:#ddd}
+.loader-progress-wrap{position:absolute;left:5vw;bottom:17%;width:350px;z-index:8}.loader-progress-meta{display:flex;justify-content:space-between;font:700 7px var(--font-orbitron);letter-spacing:.13em;color:#666;margin-bottom:10px}.loader-progress-meta b{color:var(--orange)}.earth-loader .loader-progress{height:2px;background:#202222}.earth-loader .loader-progress i{display:block;width:100%;height:100%;background:var(--orange);transform-origin:left;animation:bootProgress 5.05s linear forwards}
+@keyframes orbitSpin{from{transform:translate(-50%,-50%) rotate(-16deg)}to{transform:translate(-50%,-50%) rotate(344deg)}}
+@keyframes bootProgress{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.earth-loader footer{z-index:8}
+@media(max-width:1000px){.earth-loader-copy{top:14%}.earth-scene{right:0;width:62vw}.loader-status-card{right:4vw}.loader-progress-wrap{bottom:10%}}
+@media(max-width:650px){.earth-loader-copy{left:20px;top:13%}.earth-loader-copy small{font-size:6px}.earth-loader-copy h1{font-size:62px}.earth-loader-copy p{font-size:6px}.earth-scene{left:50%;right:auto;top:50%;width:100%;height:390px;transform:translate(-50%,-42%)}.earth-body{width:205px;height:205px}.orbit-primary{width:380px;height:140px}.orbit-secondary{width:310px;height:112px}.earth-crosshair{width:240px;height:240px}.earth-horizon{width:350px;height:130px}.earth-glow{width:300px;height:300px}.orbit-missile{top:-29px;transform:translateX(-50%) rotate(16deg) scale(.72)}.orbit-label{font-size:5px}.label-one{left:2%;top:19%}.label-two{right:1%;bottom:19%}.label-three{left:5%;bottom:12%}.loader-status-card{display:none}.loader-progress-wrap{left:20px;right:20px;width:auto;bottom:13%}.earth-loader footer{left:20px;right:20px;bottom:24px}.earth-loader footer span{font-size:5px}.earth-loader footer b{font-size:5px}}
