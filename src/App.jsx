@@ -42,7 +42,7 @@ function App() {
   }, [hash]);
 
   return (
-    <div className="relative min-h-screen bg-bg-base text-text-primary selection:bg-accent-orange selection:text-bg-base">
+    <div className="relative min-h-screen text-text-primary selection:bg-accent-orange selection:text-bg-base">
       <div className="hex-grid-overlay opacity-30" />
       <OrbitalBackdrop />
       <Navbar />

@@ -32,12 +32,30 @@ export default function Home(){
             <div className="hero-actions"><button className="btn-primary" onClick={()=>go('register')}><HiPlay/> INITIATE MISSION</button><button className="btn-secondary" onClick={()=>go('domains')}>EXPLORE DOMAINS <HiArrowRight/></button></div>
             <div className="hero-stats"><div><small>DOMAINS</small><b>04</b></div><div><small>PROJECTS</small><b>10+</b></div><div><small>MISSION</small><b>BUILD</b></div></div>
           </div>
-          <div className="hero-flight"><div className="static-flight-panel"><div className="static-earth"><div className="static-orbit"/><div className="static-missile"><span>A</span></div></div><div className="static-flight-copy"><small>ORBITAL SYSTEM</small><b>NX-01 / READY</b><span>SECURE LINK ESTABLISHED</span></div></div></div>
+          <div className="hero-flight">
+            <div className="hero-status-panel">
+              <div className="status-panel-head">
+                <span>NX-01 // MISSION CONTROL</span>
+                <b><i /> ONLINE</b>
+              </div>
+              <div className="status-panel-body">
+                <div className="status-emblem"><span>A</span><small>ASTRA</small></div>
+                <div className="status-copy">
+                  <small>ORBITAL DEFENCE NETWORK</small>
+                  <strong>SECURE LINK<br />ESTABLISHED</strong>
+                  <div className="status-line"><span>NODE</span><b>BLR-01</b></div>
+                  <div className="status-line"><span>ALTITUDE</span><b>408 KM</b></div>
+                  <div className="status-line"><span>READINESS</span><b>94%</b></div>
+                </div>
+              </div>
+              <div className="status-panel-foot"><span>VECTOR  /  18.4°</span><span>TRACKING  /  ACTIVE</span></div>
+            </div>
+          </div>
         </div>
         <div className="hero-bottom"><span>SCROLL TO EXPLORE</span><button onClick={()=>go('about')}><HiArrowDown/></button><span>01 / MISSION PROFILE</span><span>02 / DOMAINS</span><span>03 / REGISTER</span></div>
       </section>
       <div className="pro-marquee"><div>{['DEFENCE TECHNOLOGY','AEROSPACE','AI & AUTONOMY','ROBOTICS','CYBER / RF','STRATEGIC AWARENESS'].map((x,i)=><span key={i}>{x}<b>◆</b></span>)}</div></div>
-      <section className="mission-pro" id="about"><div className="section-tag">01 <span>MISSION PROFILE</span></div><div className="mission-grid"><div><p className="display-line">ENGINEERING<br/><strong>WITH PURPOSE.</strong></p><p className="muted">ASTRA is built around one idea: give students a place to move beyond theory and build systems that matter.</p><button className="text-link" onClick={()=>go('contact')}>MEET THE COLLECTIVE <HiArrowRight/></button></div><div className="mission-visual"><div className="radar"><i/><i/><i/><b>A</b></div><div className="radar-data"><span>PERIMETER</span><b>SECURE</b><span>READINESS</span><b>94%</b><span>ACTIVE NODES</span><b>04</b></div></div></div></section>
+      <section className="mission-pro" id="about"><div className="section-tag">01 <span>MISSION PROFILE</span></div><div className="mission-grid"><div><p className="display-line">ENGINEERING<br/><strong>WITH PURPOSE.</strong></p><p className="muted">ASTRA is built around one idea: give students a place to move beyond theory and build systems that matter.</p><button className="text-link" onClick={()=>go('contact')}>MEET THE COLLECTIVE <HiArrowRight/></button></div><div className="mission-visual"><div className="mission-card"><div><small>ASTRA / CORE PRINCIPLE</small><strong>BUILD SYSTEMS<br/>THAT MATTER.</strong></div><div className="mission-mark">A<span>01</span></div><div className="mission-metrics"><span>DEFENCE <b>ACTIVE</b></span><span>ENGINEERING <b>FIELD READY</b></span><span>COLLABORATION <b>OPEN</b></span></div></div></div></div></section>
       <section className="domains-pro" id="domains"><div className="section-tag">02 <span>MISSION DOMAINS</span></div><div className="domain-head"><h2>CHOOSE YOUR<br/><strong>VECTOR.</strong></h2><p>Select a domain. The system will load its focus profile.</p></div><div className="domain-console"><div className="domain-list">{domains.map((d,i)=>{const Icon=d.icon;return <button key={d.code} className={active===i?'active':''} onMouseEnter={()=>setActive(i)} onFocus={()=>setActive(i)} onClick={()=>setActive(i)}><span>{d.no}</span><Icon/><div><b>{d.title}</b><small>{d.code}</small></div><HiArrowRight/></button>})}</div><div className="domain-detail"><div className="domain-orbit"><div className="domain-icon"><ActiveIcon /></div><span>ASTRA / {domains[active].code}</span></div><div><small>ACTIVE VECTOR</small><h3>{domains[active].title}</h3><p>{domains[active].desc}</p><div className="meter"><span style={{width:domains[active].value}}/></div><div className="detail-foot"><b>{domains[active].value}</b><span>{domains[active].metric}</span></div></div></div></div></section>
     </div>
   </>;

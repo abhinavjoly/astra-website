@@ -28,12 +28,12 @@ export default function OrbitalBackdrop() {
           <span>EARTH / ASTRA-01</span>
         </div>
 
-        <div className="bg-orbit-layer bg-orbit-back">
+        <div className="bg-orbit-layer bg-orbit-back" data-orbit-layer="back">
           <div className="bg-orbit-track">
             <Missile />
           </div>
         </div>
-        <div className="bg-orbit-layer bg-orbit-front">
+        <div className="bg-orbit-layer bg-orbit-front" data-orbit-layer="front">
           <div className="bg-orbit-track">
             <Missile />
           </div>
