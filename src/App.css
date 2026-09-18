@@ -12,3 +12,52 @@
 @media(max-width:1000px){.pro-hero{padding-top:125px}.hero-layout{grid-template-columns:1fr;min-height:auto}.hero-main{padding-right:0}.hero-flight{height:620px}.flight-visual{border-left:0;border-top:1px solid var(--line);margin-top:55px}.hero-bottom span:nth-last-child(-n+3){display:none}.mission-grid,.command-body{grid-template-columns:1fr}.mission-visual{margin-top:40px}.domain-console{grid-template-columns:1fr}.domain-list{border-right:0;border-bottom:1px solid var(--line)}.domain-detail{min-height:420px}.loader-brand{top:14%;left:5vw}.loader-scene{right:0;top:50%;width:58vw}.loader-info{bottom:12%}.loader-hud{display:none}}
 @media(max-width:650px){.pointer-light{display:none}.pro-hero{padding:115px 20px 60px}.hero-meta{display:none}.hero-main h1{font-size:78px;margin-top:22px}.hero-main h2{margin-top:35px}.hero-main>p{font-size:16px}.hero-stats div{padding-right:16px;margin-right:16px}.hero-stats b{font-size:15px}.hero-flight{height:500px}.flight-visual{min-height:500px}.orbit-1{width:390px;height:160px}.orbit-2{width:300px;height:120px}.rocket-object{top:46%;transform:translate(-50%,-50%) scale(.8)}.flight-readout{font-size:6px}.top-left{left:12px}.top-right{right:12px}.bottom-left{left:12px}.bottom-right{right:12px}.flight-replay{left:12px;bottom:4%;font-size:7px}.hero-bottom{left:20px;right:20px;gap:10px}.hero-bottom span{font-size:6px}.pro-marquee span{font-size:9px}.mission-pro,.domains-pro,.command-pro{padding:85px 20px}.display-line{font-size:48px}.domain-head{display:block}.domain-head p{margin-top:18px}.domain-console{min-height:0}.domain-list button{min-height:78px;grid-template-columns:25px 25px 1fr 15px;padding:0 10px}.domain-detail{grid-template-columns:1fr;padding:35px 25px;gap:55px}.domain-orbit{width:180px;height:180px}.command-body{margin-top:45px}.terminal{box-shadow:8px 8px 0 #101111}.terminal-body{padding:25px}.pro-loader header{left:20px;right:20px}.pro-loader header span{display:none}.loader-brand{left:20px;top:15%}.loader-brand small{font-size:5px}.loader-brand h1{font-size:60px}.loader-scene{left:0;right:0;width:100%;height:440px;top:47%;border:0}.loader-earth{width:190px;height:190px}.loader-orbit{width:400px;height:130px}.launch-silo{left:4%;bottom:15%;transform:scale(.75);transform-origin:left bottom}.threat{right:8%;top:17%;transform:rotate(45deg) scale(.8)}.interceptor-loader{left:10%;bottom:30%;transform:scale(.8)}.loader-info{left:20px;right:20px;width:auto;bottom:9%}.loader-step b{font-size:11px}.loader-step p{font-size:10px}.loader-hud{display:none}.pro-loader footer{left:20px;right:20px;font-size:5px}.pro-loader footer b{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important}.pro-loader{transition:none}.pointer-light{display:none}}
+
+/* Recruitment simplification */
+.hiring-section{position:relative;padding:120px 6vw 135px;border-top:1px solid var(--line);background:linear-gradient(180deg,#090a0a 0%,#050606 100%);overflow:hidden}
+.hiring-section:before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:56px 56px;mask-image:linear-gradient(90deg,#000,transparent 85%);pointer-events:none}
+.hiring-topline{position:relative;z-index:2;display:flex;justify-content:space-between;max-width:1400px;margin:0 auto 70px;padding-bottom:13px;border-bottom:1px solid var(--line);font:700 8px var(--font-orbitron);letter-spacing:.18em;color:#666}
+.hiring-topline span:last-child{color:var(--orange)}
+.hiring-grid{position:relative;z-index:2;max-width:1400px;margin:auto;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);gap:8%;align-items:center}
+.hiring-kicker{display:block;color:#777;font:800 9px var(--font-orbitron);letter-spacing:.2em;margin-bottom:18px}
+.hiring-copy h2{margin:0;font:900 clamp(58px,8vw,122px)/.84 var(--font-orbitron);letter-spacing:-.075em;color:#f4f4f4}
+.hiring-copy h2 span{color:var(--orange);display:block}
+.hiring-copy p{max-width:570px;color:#858585;font:400 18px/1.5 var(--font-rajdhani);margin:30px 0 34px}
+.hiring-apply{display:inline-flex;align-items:center;gap:18px;padding:18px 26px;background:var(--orange);color:#050606;text-decoration:none;font:900 11px var(--font-orbitron);letter-spacing:.14em;transition:transform .2s,background .2s}
+.hiring-apply svg{font-size:17px}
+.hiring-apply:hover{transform:translateX(5px);background:#ff8a2b}
+.hiring-panel{position:relative;min-height:330px;border:1px solid #303232;background:#080909;overflow:hidden}
+.hiring-panel:before{content:'';position:absolute;inset:18px;border:1px solid #1d2020;pointer-events:none}
+.hiring-panel-head{position:relative;z-index:2;height:52px;border-bottom:1px solid #252727;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font:700 8px var(--font-orbitron);letter-spacing:.16em;color:#666}
+.hiring-panel-head b{color:#ddd}.hiring-panel-head i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#65d68a;margin-right:7px;box-shadow:0 0 10px rgba(101,214,138,.35)}
+.hiring-scan{position:absolute;left:0;right:0;top:52px;height:1px;background:linear-gradient(90deg,transparent,var(--orange),transparent);opacity:.7;animation:hiringScan 3.2s linear infinite}
+.hiring-panel-body{position:relative;z-index:2;min-height:220px;display:flex;align-items:center;gap:25px;padding:60px 45px}
+.hiring-mark{width:100px;height:100px;flex:none;display:grid;place-items:center;border:1px solid #454747;color:var(--orange);font:900 60px var(--font-orbitron);position:relative}
+.hiring-mark:after{content:'';position:absolute;inset:9px;border:1px solid rgba(255,107,0,.35);transform:rotate(45deg)}
+.hiring-panel-body strong{display:block;color:#eee;font:900 18px var(--font-orbitron);letter-spacing:.04em;margin-bottom:12px}
+.hiring-panel-body span{display:block;max-width:290px;color:#777;font:500 14px/1.45 var(--font-rajdhani)}
+.hiring-panel-foot{position:absolute;z-index:2;left:24px;right:24px;bottom:18px;display:flex;justify-content:space-between;font:700 7px var(--font-orbitron);letter-spacing:.12em;color:#555}
+.hiring-panel-foot span:last-child{color:var(--orange)}
+@keyframes hiringScan{0%{transform:translateY(0);opacity:0}15%{opacity:.8}85%{opacity:.8}100%{transform:translateY(245px);opacity:0}}
+
+/* Reliable loader animation: CSS-driven flight, JS only changes status states. */
+.loader-scene{overflow:visible}
+.loader-crosshair{position:absolute;left:73%;top:23%;width:120px;height:120px;border:1px solid rgba(255,107,0,.18);border-radius:50%;transform:translate(-50%,-50%)}
+.loader-crosshair:before,.loader-crosshair:after{content:'';position:absolute;background:rgba(255,107,0,.28)}
+.loader-crosshair:before{left:50%;top:-12px;width:1px;height:144px}.loader-crosshair:after{top:50%;left:-12px;width:144px;height:1px}
+.interceptor-loader{animation:interceptorFlight 4.25s cubic-bezier(.2,.75,.2,1) forwards;will-change:transform}
+.interceptor-loader em{animation:flame .07s infinite alternate, flameFlicker .22s infinite alternate}
+.target-lock{position:absolute;left:73%;top:23%;width:62px;height:62px;transform:translate(-50%,-50%) scale(.65);border:1px solid rgba(255,107,0,.35);opacity:.2;transition:opacity .25s,transform .25s;display:grid;place-items:center}
+.target-lock:before,.target-lock:after{content:'';position:absolute;background:var(--orange)}
+.target-lock:before{width:78px;height:1px}.target-lock:after{height:78px;width:1px}
+.target-lock i{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 15px var(--orange)}
+.target-lock span{position:absolute;top:72px;font:700 6px var(--font-orbitron);color:var(--orange);letter-spacing:.15em}
+.target-lock.locked{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.intercept-flash{opacity:0;transform:translate(-50%,-50%) scale(.3);pointer-events:none}
+.intercept-flash.visible{opacity:1;animation:impactBurst .8s cubic-bezier(.15,.8,.2,1) both}
+@keyframes interceptorFlight{0%{transform:translate(0,0) rotate(0deg) scale(.75);opacity:0}8%{opacity:1}28%{transform:translate(90px,-20px) rotate(9deg) scale(.82)}55%{transform:translate(250px,-90px) rotate(22deg) scale(.92)}78%{transform:translate(390px,-155px) rotate(34deg) scale(1)}92%{transform:translate(470px,-205px) rotate(40deg) scale(1)}100%{transform:translate(520px,-225px) rotate(44deg) scale(.2);opacity:0}}
+@keyframes impactBurst{0%{opacity:0;transform:translate(-50%,-50%) scale(.25)}35%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.7)}}
+@keyframes flameFlicker{to{filter:brightness(1.45);transform:translateX(-50%) scaleX(1.12)}}
+
+@media(max-width:1000px){.hiring-grid{grid-template-columns:1fr;gap:55px}.hiring-panel{max-width:720px}.hiring-copy h2{font-size:clamp(56px,12vw,100px)}}
+@media(max-width:650px){.hiring-section{padding:85px 20px 100px}.hiring-topline{margin-bottom:45px;font-size:6px}.hiring-topline span:last-child{display:none}.hiring-copy h2{font-size:60px}.hiring-copy p{font-size:16px}.hiring-panel{min-height:300px}.hiring-panel-body{padding:50px 30px;gap:18px}.hiring-mark{width:72px;height:72px;font-size:42px}.hiring-panel-body strong{font-size:14px}.hiring-panel-body span{font-size:12px}.hiring-panel-foot{font-size:5px}.hiring-panel-foot span:first-child{display:none}.loader-crosshair{left:73%;top:22%;width:90px;height:90px}.target-lock{left:73%;top:22%}.interceptor-loader{transform-origin:center bottom}.loader-scene{overflow:hidden}}
