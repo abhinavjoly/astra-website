@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HiArrowDown, HiArrowRight, HiPlay } from 'react-icons/hi';
 import { GiBrain, GiDeliveryDrone, GiSatelliteCommunication, GiRobotLeg } from 'react-icons/gi';
 
@@ -9,83 +9,13 @@ const domains = [
   { no:'04', code:'COMMS', title:'CYBER / RF', icon:GiSatelliteCommunication, desc:'Secure networks, RF systems and strategic communications.', metric:'SIGNAL', value:'88%' },
 ];
 
-function DefenseLoader({ onComplete }) {
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    const timer = window.setTimeout(onComplete, 5200);
-    return () => {
-      window.clearTimeout(timer);
-      document.body.style.overflow = '';
-    };
-  }, [onComplete]);
-
-  return (
-    <div className="pro-loader earth-loader" aria-label="ASTRA orbital systems loading">
-      <div className="loader-grid" />
-      <div className="loader-vignette" />
-      <div className="loader-sweep" />
-      <header>
-        <strong>ASTRA // DEFENCE NETWORK</strong>
-        <span>SECURE INITIALIZATION</span>
-      </header>
-      <div className="earth-loader-copy">
-        <small>ORBITAL DEFENCE SYSTEM</small>
-        <h1>ASTRA<span>.</span></h1>
-        <p>ESTABLISHING SECURE ORBITAL LINK</p>
-      </div>
-      <div className="earth-scene" aria-hidden="true">
-        <div className="earth-horizon" />
-        <div className="earth-glow" />
-        <div className="earth-body">
-          <div className="earth-land land-a" />
-          <div className="earth-land land-b" />
-          <div className="earth-land land-c" />
-          <div className="earth-grid-lines" />
-          <span>EARTH // SECURE</span>
-        </div>
-        <div className="earth-orbit orbit-primary">
-          <div className="orbit-missile">
-            <div className="missile-nose" />
-            <div className="missile-body"><span>A</span></div>
-            <div className="missile-fin left" />
-            <div className="missile-fin right" />
-            <div className="missile-flame" />
-          </div>
-        </div>
-        <div className="earth-orbit orbit-secondary" />
-        <div className="earth-crosshair"><i /><i /><i /><i /></div>
-        <div className="orbit-label label-one">ORBITAL VECTOR <b>NX-01</b></div>
-        <div className="orbit-label label-two">ALTITUDE <b>408 KM</b></div>
-        <div className="orbit-label label-three">LINK <b>SECURE</b></div>
-      </div>
-      <div className="loader-status-card">
-        <div className="status-top"><span>FLIGHT CONTROL</span><b>ONLINE</b></div>
-        <div className="status-line"><span>ORBIT</span><strong>STABLE</strong></div>
-        <div className="status-line"><span>GUIDANCE</span><strong>NOMINAL</strong></div>
-        <div className="status-line"><span>NETWORK</span><strong>BLR-01</strong></div>
-      </div>
-      <div className="loader-progress-wrap">
-        <div className="loader-progress-meta"><span>LOADING ASTRA</span><b>100%</b></div>
-        <div className="loader-progress"><i /></div>
-      </div>
-      <footer>
-        <span>DEFENCE / TECHNOLOGY / ENGINEERING</span>
-        <b>ORBIT ESTABLISHED // SYSTEM READY</b>
-      </footer>
-    </div>
-  );
-}
-
 export default function Home(){
-  const [loading,setLoading]=useState(true);
   const [active,setActive]=useState(0);
   const [time,setTime]=useState('00:00:00');
-  const finish=useCallback(()=>setLoading(false),[]);
   useEffect(()=>{const tick=()=>setTime(new Date().toLocaleTimeString('en-IN',{hour12:false}));tick();const id=setInterval(tick,1000);return()=>clearInterval(id)},[]);
   const go=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
   const ActiveIcon = domains[active].icon;
   return <>
-    {loading&&<DefenseLoader onComplete={finish}/>} 
     <div id="home" className="astra-pro">
       <div className="pro-progress"/>
       <section className="pro-hero">
