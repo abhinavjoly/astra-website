@@ -1,168 +1,110 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { HiArrowDown, HiArrowRight, HiLightningBolt, HiPlay, HiRefresh, HiShieldCheck } from 'react-icons/hi';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { HiArrowDown, HiArrowRight, HiPlay, HiRefresh } from 'react-icons/hi';
 import { GiBrain, GiDeliveryDrone, GiSatelliteCommunication, GiRobotLeg } from 'react-icons/gi';
 
 const domains = [
-  { code: 'AERO', no: '01', title: 'AEROSPACE', icon: GiDeliveryDrone, desc: 'UAVs, flight systems, propulsion and autonomous platforms.' },
-  { code: 'ROBO', no: '02', title: 'ROBOTICS', icon: GiRobotLeg, desc: 'Embedded control, sensing, actuation and intelligent machines.' },
-  { code: 'AIML', no: '03', title: 'AI / ML', icon: GiBrain, desc: 'Vision, edge intelligence and autonomous decision systems.' },
-  { code: 'COMMS', no: '04', title: 'CYBER / RF', icon: GiSatelliteCommunication, desc: 'Secure networks, RF systems and strategic communications.' },
+  { no:'01', code:'AERO', title:'AEROSPACE', icon:GiDeliveryDrone, desc:'UAVs, flight systems, propulsion and autonomous platforms.', metric:'FLIGHT SYSTEMS', value:'84%' },
+  { no:'02', code:'ROBO', title:'ROBOTICS', icon:GiRobotLeg, desc:'Embedded control, sensing, actuation and intelligent machines.', metric:'AUTONOMY', value:'76%' },
+  { no:'03', code:'AIML', title:'AI / ML', icon:GiBrain, desc:'Vision, edge intelligence and autonomous decision systems.', metric:'EDGE AI', value:'91%' },
+  { no:'04', code:'COMMS', title:'CYBER / RF', icon:GiSatelliteCommunication, desc:'Secure networks, RF systems and strategic communications.', metric:'SIGNAL', value:'88%' },
 ];
 
-const telemetry = ['ALT 0000 M', 'VEL 000 KM/H', 'FUEL 100%', 'NODE BLR-01'];
-
-function Rocket({ landing, replay }) {
+function RocketVisual({ replay }) {
+  const [run, setRun] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setRun(true), 350); return () => clearTimeout(t); }, []);
+  const restart = () => { setRun(false); requestAnimationFrame(() => setRun(true)); };
+  const click = () => { restart(); replay?.(); };
   return (
-    <div className={`rocket-stage ${landing ? 'is-landing' : ''}`} onClick={replay} role="button" tabIndex={0} onKeyDown={(e) => e.key === 'Enter' && replay()} aria-label="Replay rocket landing">
-      <div className="rocket-sky-grid" />
-      <div className="rocket-stars">{Array.from({ length: 34 }).map((_, i) => <i key={i} style={{ '--i': i }} />)}</div>
-      <div className="rocket-orbit-line orbit-left" />
-      <div className="rocket-orbit-line orbit-right" />
-      <div className="rocket-altitude">ALTITUDE<br /><strong>0000</strong><span>M</span></div>
-      <div className="rocket-target"><span>LANDING ZONE</span><b>ASTRA-01</b></div>
-      <motion.div className="rocket" animate={landing ? { y: [ -250, -190, -125, -60, 0, 8, 0 ], rotate: [ -3, 1, -1, 1, 0, 0, 0 ] } : { y: 0 }} transition={{ duration: 4.2, ease: [0.18, 0.8, 0.25, 1] }}>
-        <div className="rocket-fin fin-left" /><div className="rocket-fin fin-right" />
-        <div className="rocket-body"><div className="rocket-window" /><div className="rocket-band" /><span>ASTRA</span></div>
-        <div className="rocket-engine"><i /><i /><i /></div>
-      </motion.div>
-      <div className="landing-pad"><span className="pad-ring" /><span className="pad-mark">A</span><b>TOUCHDOWN</b></div>
-      <div className="rocket-flame" />
-      <div className="dust dust-a" /><div className="dust dust-b" /><div className="dust dust-c" />
-      <div className="rocket-readout">FLIGHT COMPUTER <strong>ONLINE</strong><br />GUIDANCE <strong>NOMINAL</strong><br />LANDING <strong>ARMED</strong></div>
+    <div className="flight-visual">
+      <div className="flight-grid" />
+      <div className="flight-glow" />
+      <div className="orbit orbit-1" /><div className="orbit orbit-2" />
+      <div className="target-zone"><span>LANDING ZONE</span><b>ASTRA-01</b><i /></div>
+      <div className="flight-axis x" /><div className="flight-axis y" />
+      <div className="rocket-object" onClick={click} role="button" tabIndex={0} onKeyDown={(e)=>e.key==='Enter'&&click()} aria-label="Replay launch">
+        <motion.div className="rocket-core" animate={run ? { y:[-20,-55,-120,-210,-250,-265], scale:[.9,.92,.95,1,1,1] } : { y:-20 }} transition={{ duration:3.8, ease:[.2,.75,.2,1] }}>
+          <div className="rocket-nose"/><div className="rocket-shell"><span>ASTRA</span><small>NX-01</small><i /></div><div className="rocket-fin left"/><div className="rocket-fin right"/><div className="rocket-engine"><b/><b/><b/></div>
+        </motion.div>
+        <motion.div className="rocket-trail" animate={run ? { height:[40,70,110,160,190,210], opacity:[.3,.55,.8,1,.7,.35] } : { height:40 }} transition={{ duration:3.8 }} />
+      </div>
+      <div className="flight-readout top-left"><span>FLIGHT COMPUTER</span><b>ONLINE</b><small>GUIDANCE / NOMINAL</small></div>
+      <div className="flight-readout top-right"><span>TARGET VECTOR</span><b>084°</b><small>RANGE / 4.2 KM</small></div>
+      <div className="flight-readout bottom-left"><span>ALT</span><b>12,840 M</b><span>VEL</span><b>7.8 M</b></div>
+      <div className="flight-readout bottom-right"><span>SYSTEM</span><b>READY</b><small>CLICK ROCKET TO REPLAY</small></div>
+      <button className="flight-replay" onClick={click}><HiRefresh/> REPLAY LAUNCH</button>
     </div>
   );
 }
 
-const Home = () => {
-  const heroRef = useRef(null);
-  const [landing, setLanding] = useState(true);
-  const [activeDomain, setActiveDomain] = useState(0);
-  const [time, setTime] = useState('00:00:00');
-  const [pointer, setPointer] = useState({ x: 50, y: 50 });
-  const [launched, setLaunched] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 25 });
-  const rocketParallax = useTransform(progress, [0, 0.25], [0, -80]);
-
+function DefenseLoader({ onComplete }) {
+  const [phase, setPhase] = useState(0);
+  const [done, setDone] = useState(false);
+  const steps = [
+    ['01','BOOT','ASTRA defence network initializing'],
+    ['02','VECTOR ACQUIRED','Threat trajectory identified'],
+    ['03','INTERCEPTOR LAUNCH','Guidance and propulsion online'],
+    ['04','TARGET LOCK','Tracking solution confirmed'],
+    ['05','INTERCEPTION','Threat neutralized / perimeter secure'],
+  ];
   useEffect(() => {
-    const tick = () => setTime(new Date().toLocaleTimeString('en-IN', { hour12: false }));
-    tick(); const id = setInterval(tick, 1000); return () => clearInterval(id);
-  }, []);
+    document.body.style.overflow = 'hidden';
+    const timers = [700,1500,2550,3500,4550].map((ms,i)=>setTimeout(()=>setPhase(i),ms));
+    const end=setTimeout(()=>{setDone(true);setTimeout(onComplete,650)},5250);
+    return()=>{timers.forEach(clearTimeout);clearTimeout(end);document.body.style.overflow='';};
+  },[onComplete]);
+  return <motion.div className={`pro-loader ${done?'loader-done':''}`} initial={{opacity:1}} animate={{opacity:1}} exit={{opacity:0}}>
+    <div className="loader-grid"/><div className="loader-sweep"/>
+    <header><strong>ASTRA // DEFENCE NETWORK</strong><span>SECURE BOOT 07.01</span></header>
+    <div className="loader-brand"><small>ARMED SQUAD FOR TACTICAL READINESS & AWARENESS</small><h1>ASTRA<span>.</span></h1></div>
+    <div className="loader-scene">
+      <div className="loader-earth"/><div className="loader-orbit a"/><div className="loader-orbit b"/>
+      <div className="threat"><span>TGT-047</span><i/></div>
+      <div className="launch-silo"><span>A</span><i/></div>
+      <motion.div className="interceptor-loader" animate={{x:phase>=2?[0,90,210,330,430][Math.min(phase,4)]:0,y:phase>=2?[120,80,25,-40,-95][Math.min(phase,4)]:150,rotate:phase>=2?[0,20,35,48,62][Math.min(phase,4)]:0,opacity:phase===4?[0,1,1,1,0]:1}} transition={{duration:phase>=2?1.05:.4,ease:'easeInOut'}}><b/><i/><em/></motion.div>
+      <AnimatePresence>{phase===4&&<motion.div className="intercept-flash" initial={{scale:0,opacity:0}} animate={{scale:1,opacity:[0,1,0]}} transition={{duration:.9}}><span>INTERCEPTED</span></motion.div>}</AnimatePresence>
+    </div>
+    <div className="loader-info"><div className="loader-step"><small>{steps[phase][0]}</small><div><b>{steps[phase][1]}</b><p>{steps[phase][2]}</p></div></div><div className="loader-progress"><i style={{width:`${(phase+1)*20}%`}}/></div></div>
+    <div className="loader-hud"><span>GRID <b>ONLINE</b></span><span>GUIDANCE <b>NOMINAL</b></span><span>NODE <b>BLR-01</b></span><span>STATUS <b>SECURE</b></span></div>
+    <footer>DEFENCE / TECHNOLOGY / ENGINEERING <b>ALL SYSTEMS NOMINAL</b></footer>
+  </motion.div>;
+}
 
-  useEffect(() => {
-    const id = setTimeout(() => setLanding(false), 5200);
-    return () => clearTimeout(id);
-  }, [landing]);
-
-  const move = (e) => {
-    const r = heroRef.current?.getBoundingClientRect(); if (!r) return;
-    setPointer({ x: ((e.clientX - r.left) / r.width) * 100, y: ((e.clientY - r.top) / r.height) * 100 });
-  };
-
-  const replay = () => { setLanding(false); requestAnimationFrame(() => setLanding(true)); };
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  const launch = () => {
-    setLaunched(true);
-    setLanding(false);
-    setTimeout(() => setLanding(true), 900);
-    setTimeout(() => setLaunched(false), 5200);
-  };
-
-  const particles = useMemo(() => Array.from({ length: 18 }), []);
-
-  return (
-    <motion.div id="home" className="astra-hyper" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className="cursor-glow" style={{ left: `${pointer.x}%`, top: `${pointer.y}%` }} />
-      <div className="scroll-progress"><span style={{ transform: `scaleY(${scrollYProgress.get?.() || 0})` }} /></div>
-
-      <section ref={heroRef} onMouseMove={move} className={`hyper-hero ${launched ? 'launch-mode' : ''}`}>
-        <div className="hero-noise" /><div className="hero-grid" /><div className="hero-vignette" />
-        <div className="hero-corner tl">ASTRA / FLIGHT 001<br /><b>EXPERIMENTAL SYSTEMS</b></div>
-        <div className="hero-corner tr">13.1341° N<br />77.5694° E</div>
-        <div className="hero-side-label">DEFENCE // TECHNOLOGY // ENGINEERING // BENGALURU</div>
-
-        <div className="hero-copy">
-          <motion.div className="hero-kicker" initial={{ x: -30, opacity: 0 }} animate={{ x: 0, opacity: 1 }}><span /> SYSTEM ONLINE <b>07.4ms</b></motion.div>
-          <motion.h1 initial={{ y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: .8 }}>
-            AST<span>R</span>A<em>.</em>
-          </motion.h1>
-          <div className="hero-under"><span>ARMED SQUAD FOR TACTICAL READINESS & AWARENESS</span><i /></div>
-          <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: .25 }}>
-            <strong>BUILD THE FUTURE.</strong><br />
-            A student defence-tech collective turning engineering into real systems.
-          </motion.p>
-          <div className="hero-actions">
-            <button className="hyper-hot" onClick={launch}><HiPlay /> INITIATE FLIGHT</button>
-            <button className="hyper-line" onClick={() => scrollTo('about')}>EXPLORE ASTRA <HiArrowDown /></button>
+export default function Home(){
+  const heroRef=useRef(null); const [loading,setLoading]=useState(true); const [active,setActive]=useState(0); const [time,setTime]=useState('00:00:00'); const [pointer,setPointer]=useState({x:50,y:50}); const [launch,setLaunch]=useState(false);
+  const finish=useCallback(()=>setLoading(false),[]);
+  useEffect(()=>{const tick=()=>setTime(new Date().toLocaleTimeString('en-IN',{hour12:false}));tick();const id=setInterval(tick,1000);return()=>clearInterval(id)},[]);
+  const move=e=>{const r=heroRef.current?.getBoundingClientRect();if(r)setPointer({x:(e.clientX-r.left)/r.width*100,y:(e.clientY-r.top)/r.height*100})};
+  const go=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+  const replay=()=>{setLaunch(false);requestAnimationFrame(()=>setLaunch(true));setTimeout(()=>setLaunch(false),4000)};
+  const particles=useMemo(()=>Array.from({length:28}),[]);
+  const ActiveIcon = domains[active].icon;
+  return <>
+    {loading&&<DefenseLoader onComplete={finish}/>} 
+    <div id="home" className="astra-pro">
+      <div className="pointer-light" style={{left:`${pointer.x}%`,top:`${pointer.y}%`}}/>
+      <div className="pro-progress"/>
+      <section ref={heroRef} onMouseMove={move} className={`pro-hero ${launch?'hero-launch':''}`}>
+        <div className="hero-grid-pro"/><div className="hero-particles">{particles.map((_,i)=><i key={i} style={{'--n':i}}/>)}</div>
+        <div className="hero-meta left">ASTRA / NX-01<br/><b>DEFENCE R&amp;D COLLECTIVE</b></div><div className="hero-meta right">BMSIT&amp;M // BENGALURU<br/><b>13.1341° N / 77.5694° E</b></div>
+        <div className="hero-layout">
+          <div className="hero-main">
+            <div className="eyebrow"><i/> SYSTEM ONLINE <b>07.4 MS</b></div>
+            <h1>ASTR<span>A</span><em>.</em></h1>
+            <div className="hero-rule"><span>ARMED SQUAD FOR TACTICAL READINESS &amp; AWARENESS</span><i/></div>
+            <h2>BUILD THE <strong>FUTURE.</strong></h2>
+            <p>A student defence-tech collective turning engineering into real systems — from autonomous machines and aerospace platforms to AI, RF and cyber.</p>
+            <div className="hero-actions"><button className="btn-primary" onClick={()=>go('register')}><HiPlay/> INITIATE MISSION</button><button className="btn-secondary" onClick={()=>go('domains')}>EXPLORE DOMAINS <HiArrowRight/></button></div>
+            <div className="hero-stats"><div><small>DOMAINS</small><b>04</b></div><div><small>PROJECTS</small><b>10+</b></div><div><small>MISSION</small><b>BUILD</b></div></div>
           </div>
+          <div className="hero-flight"><RocketVisual replay={replay}/></div>
         </div>
-
-        <motion.div className="hero-rocket-wrap" style={{ y: rocketParallax }}>
-          <Rocket landing={landing} replay={replay} />
-          <button className="replay-flight" onClick={replay}><HiRefresh /> REPLAY LANDING</button>
-        </motion.div>
-
-        <div className="hero-telemetry">
-          <div className="telemetry-time"><span>LOCAL SYSTEM TIME</span><strong>{time}</strong></div>
-          {telemetry.map((t, i) => <div key={t}><span>{t.split(' ')[0]}</span><b>{t.split(' ')[1]}</b></div>)}
-          <div className="signal"><span>SIGNAL</span><i>{Array.from({ length: 12 }).map((_, i) => <b key={i} style={{ height: `${8 + ((i * 7) % 24)}px` }} />)}</i><em>98%</em></div>
-        </div>
-
-        <div className="hero-bottom-command"><span>SCROLL TO DESCEND</span><div><b>01</b> MISSION <b>02</b> DOMAINS <b>03</b> REGISTER</div><HiArrowDown /></div>
+        <div className="hero-bottom"><span>SCROLL TO EXPLORE</span><button onClick={()=>go('about')}><HiArrowDown/></button><span>01 / MISSION PROFILE</span><span>02 / DOMAINS</span><span>03 / REGISTER</span></div>
       </section>
-
-      <section className="impact-strip">
-        <div className="impact-track">{[...Array(2)].flatMap(() => ['DEFENCE', 'AEROSPACE', 'ROBOTICS', 'AI / ML', 'CYBER', 'EMBEDDED', 'AUTONOMY', 'STRATEGY']).map((x, i) => <React.Fragment key={i}><span>{x}</span><b>◆</b></React.Fragment>)}</div>
-      </section>
-
-      <section className="hyper-section mission-panel" id="mission">
-        <div className="section-number">01</div><div className="section-line"><span>MISSION CONTROL</span><i /></div>
-        <div className="mission-grid">
-          <div className="mission-copy"><p className="overline">THE ASTRA DIRECTIVE</p><h2>DON'T JUST<br /><span>LEARN IT.</span><br />BUILD IT.</h2><p>ASTRA exists to make defence technology tangible. Learn the systems, prototype the idea, test it and put it in the hands of people who can push it further.</p><button className="hyper-line" onClick={() => scrollTo('about')}>READ THE MISSION <HiArrowRight /></button></div>
-          <div className="mission-console">
-            <div className="console-header"><span>MISSION / LIVE</span><b>● ACTIVE</b></div>
-            <div className="console-orbit"><div className="console-sweep" /><div className="console-core"><HiShieldCheck /><span>ASTRA</span></div>{particles.map((_, i) => <i key={i} style={{ '--p': i }} />)}</div>
-            <div className="console-data"><span>IDEATE <b>100%</b></span><span>PROTOTYPE <b>76%</b></span><span>TEST <b>54%</b></span><span>DEPLOY <b>28%</b></span></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="hyper-section domain-command" id="domain-preview">
-        <div className="section-number">02</div><div className="section-line"><span>AREAS OF OPERATION</span><i /></div>
-        <div className="domain-command-head"><div><p className="overline">SELECT A SYSTEM</p><h2>CHOOSE<br /><span>YOUR DOMAIN.</span></h2></div><div className="domain-readout">SYSTEMS ONLINE<br /><strong>04 / 04</strong></div></div>
-        <div className="domain-console">
-          <div className="domain-tabs">{domains.map((d, i) => { const Icon = d.icon; return <button key={d.code} onMouseEnter={() => setActiveDomain(i)} onFocus={() => setActiveDomain(i)} onClick={() => setActiveDomain(i)} className={activeDomain === i ? 'active' : ''}><span>{d.no}</span><Icon /><strong>{d.title}</strong><em>{d.code}</em></button>; })}</div>
-          <div className="domain-main">
-            <div className="domain-main-bg" />
-            <div className="domain-big-number">{domains[activeDomain].no}</div>
-            <div className="domain-icon-wrap">{React.createElement(domains[activeDomain].icon)}</div>
-            <p className="overline">CAPABILITY // {domains[activeDomain].code}</p>
-            <h3>{domains[activeDomain].title}</h3><p>{domains[activeDomain].desc}</p>
-            <div className="domain-meter"><span>READINESS</span><i><b style={{ width: `${82 + activeDomain * 4}%` }} /></i><strong>{82 + activeDomain * 4}%</strong></div>
-            <button className="hyper-hot small" onClick={() => scrollTo('domains')}>ENTER DOMAIN <HiArrowRight /></button>
-          </div>
-        </div>
-      </section>
-
-      <section className="hyper-section velocity-section">
-        <div className="velocity-bg"><div className="velocity-ring r1" /><div className="velocity-ring r2" /><div className="velocity-ring r3" /></div>
-        <div className="velocity-copy"><p className="overline">03 / ENGINEERING VELOCITY</p><h2>IDEAS MOVE<br /><span>FAST HERE.</span></h2><p>From first-year experiments to serious engineering builds, ASTRA is designed around action — workshops, projects, competitions and people who actually make things.</p></div>
-        <div className="velocity-stats"><div><strong>24/7</strong><span>BUILD MINDSET</span></div><div><strong>04</strong><span>CORE DOMAINS</span></div><div><strong>∞</strong><span>EXPERIMENTS</span></div></div>
-      </section>
-
-      <section className="hyper-section terminal-zone">
-        <div className="terminal-glitch">ASTRA_OS</div>
-        <div className="terminal-window"><div className="terminal-bar"><span>ASTRA // SECURE TERMINAL</span><b>● ● ●</b></div><div className="terminal-lines"><p><i>01</i> root@astra:~$ <strong>scan --systems</strong></p><p className="ok">[OK] aerospace interface detected</p><p className="ok">[OK] robotics stack responding</p><p className="ok">[OK] AI inference core online</p><p className="ok">[OK] communications mesh linked</p><p><i>06</i> root@astra:~$ <strong className="cursor-type">build --future</strong></p></div><button onClick={() => scrollTo('register')} className="terminal-cta"><HiLightningBolt /> ACCESS ASTRA <HiArrowRight /></button></div>
-      </section>
-
-      <section className="hyper-final">
-        <div className="final-sun" /><div className="final-grid" />
-        <div className="final-copy"><p className="overline">04 / NEXT OPERATOR</p><h2>YOUR<br /><span>MISSION</span><br />STARTS NOW.</h2><p>Bring the curiosity. Bring the prototype. Bring the impossible-looking idea.</p><button className="hyper-hot" onClick={() => scrollTo('register')}>JOIN ASTRA <HiArrowRight /></button></div>
-        <div className="final-code">ASTRA<br /><small>BMSIT&amp;M // BENGALURU</small></div>
-      </section>
-    </motion.div>
-  );
-};
-
-export default Home;
+      <div className="pro-marquee"><div>{['DEFENCE TECHNOLOGY','AEROSPACE','AI & AUTONOMY','ROBOTICS','CYBER / RF','STRATEGIC AWARENESS'].map((x,i)=><span key={i}>{x}<b>◆</b></span>)}</div></div>
+      <section className="mission-pro" id="about"><div className="section-tag">01 <span>MISSION PROFILE</span></div><div className="mission-grid"><div><p className="display-line">ENGINEERING<br/><strong>WITH PURPOSE.</strong></p><p className="muted">ASTRA is built around one idea: give students a place to move beyond theory and build systems that matter.</p><button className="text-link" onClick={()=>go('contact')}>MEET THE COLLECTIVE <HiArrowRight/></button></div><div className="mission-visual"><div className="radar"><i/><i/><i/><b>A</b></div><div className="radar-data"><span>PERIMETER</span><b>SECURE</b><span>READINESS</span><b>94%</b><span>ACTIVE NODES</span><b>04</b></div></div></div></section>
+      <section className="domains-pro" id="domains"><div className="section-tag">02 <span>MISSION DOMAINS</span></div><div className="domain-head"><h2>CHOOSE YOUR<br/><strong>VECTOR.</strong></h2><p>Select a domain. The system will load its focus profile.</p></div><div className="domain-console"><div className="domain-list">{domains.map((d,i)=>{const Icon=d.icon;return <button key={d.code} className={active===i?'active':''} onMouseEnter={()=>setActive(i)} onFocus={()=>setActive(i)} onClick={()=>setActive(i)}><span>{d.no}</span><Icon/><div><b>{d.title}</b><small>{d.code}</small></div><HiArrowRight/></button>})}</div><AnimatePresence mode="wait"><motion.div key={domains[active].code} className="domain-detail" initial={{opacity:0,x:30}} animate={{opacity:1,x:0}} exit={{opacity:0,x:-20}}><div className="domain-orbit"><div className="domain-icon"><ActiveIcon /></div><span>ASTRA / {domains[active].code}</span></div><div><small>ACTIVE VECTOR</small><h3>{domains[active].title}</h3><p>{domains[active].desc}</p><div className="meter"><span style={{width:domains[active].value}}/></div><div className="detail-foot"><b>{domains[active].value}</b><span>{domains[active].metric}</span></div></div></motion.div></AnimatePresence></div></section>
+      <section className="command-pro" id="register"><div className="command-top"><span>03 / ACCESS TERMINAL</span><b>SECURE CHANNEL</b></div><div className="command-body"><div><small>READY WHEN YOU ARE</small><h2>ENTER<br/><strong>ASTRA.</strong></h2><p>Build. Experiment. Compete. Connect with people working at the edge of engineering.</p><button className="btn-primary" onClick={()=>go('contact')}>REQUEST ACCESS <HiArrowRight/></button></div><div className="terminal"><div className="terminal-bar"><span>ASTRA.OS</span><i/><i/><i/></div><div className="terminal-body"><p>&gt; initialise_member()</p><p>&gt; scan_domains()</p><p>&gt; establish_channel<span className="cursor">_</span></p><p className="ok">ACCESS WINDOW OPEN</p><button onClick={()=>go('contact')}>[ ENTER ASTRA ]</button></div></div></div></section>
+    </div>
+  </>;
+}
