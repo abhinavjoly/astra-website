@@ -1,15 +1,5 @@
 import React from 'react';
 
-const Missile = ({ className = '' }) => (
-  <div className={`bg-missile ${className}`} aria-hidden="true">
-    <div className="bg-missile-nose" />
-    <div className="bg-missile-body"><span>A</span></div>
-    <div className="bg-missile-fin left" />
-    <div className="bg-missile-fin right" />
-    <div className="bg-missile-flame" />
-  </div>
-);
-
 export default function OrbitalBackdrop() {
   return (
     <div className="orbital-backdrop" aria-hidden="true">
@@ -17,26 +7,21 @@ export default function OrbitalBackdrop() {
       <div className="orbital-system">
         <div className="bg-orbit bg-orbit-wide" />
         <div className="bg-orbit bg-orbit-inner" />
+        <div className="bg-orbit bg-orbit-accent" />
         <div className="bg-earth-glow" />
 
         <div className="bg-earth">
-          <div className="bg-earth-lights" />
-          <div className="bg-earth-continent c1" />
-          <div className="bg-earth-continent c2" />
-          <div className="bg-earth-continent c3" />
-          <div className="bg-earth-grid" />
+          <div className="bg-earth-surface">
+            <div className="bg-earth-lights" />
+            <div className="bg-earth-continent c1" />
+            <div className="bg-earth-continent c2" />
+            <div className="bg-earth-continent c3" />
+            <div className="bg-earth-grid" />
+          </div>
+          <div className="bg-earth-meridian meridian-a" />
+          <div className="bg-earth-meridian meridian-b" />
+          <div className="bg-earth-shine" />
           <span>EARTH / ASTRA-01</span>
-        </div>
-
-        <div className="bg-orbit-layer bg-orbit-back" data-orbit-layer="back">
-          <div className="bg-orbit-track">
-            <Missile />
-          </div>
-        </div>
-        <div className="bg-orbit-layer bg-orbit-front" data-orbit-layer="front">
-          <div className="bg-orbit-track">
-            <Missile />
-          </div>
         </div>
 
         <div className="bg-target-ring" />
