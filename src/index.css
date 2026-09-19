@@ -156,11 +156,11 @@ body::after {
   background: #FF6B00;
 }
 
-/* ASTRA redesign */
-::selection { background: var(--accent-orange); color: var(--bg-base); }
-button { font: inherit; }
+::selection {
+  background: var(--accent-orange);
+  color: var(--bg-base);
+}
 
-/* Hyper redesign overrides */
-body { background:#050505; }
-body::after { opacity:.025; }
-::selection { background:#FF6B00; color:#050505; }
+button {
+  font: inherit;
+}
