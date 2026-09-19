@@ -1,104 +1,62 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { HiArrowDown, HiArrowRight } from 'react-icons/hi';
-import {
-  GiDeliveryDrone,
-  GiRobotLeg,
-  GiArtificialIntelligence,
-  GiRadarSweep,
-} from 'react-icons/gi';
+import React, { useEffect, useState } from 'react';
+import { HiArrowDown, HiArrowRight, HiPlay } from 'react-icons/hi';
+import { GiBrain, GiDeliveryDrone, GiSatelliteCommunication, GiRobotLeg } from 'react-icons/gi';
 
-const domainPreview = [
-  { title: 'Aerospace', icon: <GiDeliveryDrone /> },
-  { title: 'Robotics', icon: <GiRobotLeg /> },
-  { title: 'AI & ML', icon: <GiArtificialIntelligence /> },
-  { title: 'Cyber & RF', icon: <GiRadarSweep /> },
+const domains = [
+  { no:'01', code:'AERO', title:'AEROSPACE', icon:GiDeliveryDrone, desc:'UAVs, flight systems, propulsion and autonomous platforms.', metric:'FLIGHT SYSTEMS', value:'84%' },
+  { no:'02', code:'ROBO', title:'ROBOTICS', icon:GiRobotLeg, desc:'Embedded control, sensing, actuation and intelligent machines.', metric:'AUTONOMY', value:'76%' },
+  { no:'03', code:'AIML', title:'AI / ML', icon:GiBrain, desc:'Vision, edge intelligence and autonomous decision systems.', metric:'EDGE AI', value:'91%' },
+  { no:'04', code:'COMMS', title:'CYBER / RF', icon:GiSatelliteCommunication, desc:'Secure networks, RF systems and strategic communications.', metric:'SIGNAL', value:'88%' },
 ];
 
-const Home = () => {
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-
-  return (
-    <div id="home">
-      {/* Hero */}
-      <section className="relative min-h-[85vh] flex items-center px-6 pt-32 pb-20">
-        <div className="container mx-auto max-w-4xl">
-          <span className="label-badge text-accent-orange mb-6 block">
-            BMSIT&amp;M · Defence Technology Club
-          </span>
-
-          <h1 className="font-orbitron font-black text-text-primary text-6xl sm:text-7xl md:text-8xl leading-[0.95] tracking-tighter mb-6">
-            ASTRA
-          </h1>
-
-          <p className="font-rajdhani text-xl md:text-2xl text-text-primary/90 mb-4 max-w-2xl">
-            Armed Squad for Tactical Readiness &amp; Awareness
-          </p>
-
-          <p className="text-text-muted font-inter text-base md:text-lg leading-relaxed max-w-xl mb-10">
-            We're a student-run club for people who'd rather build the thing
-            than just read about it — robotics, AI, cybersecurity, comms and
-            aerospace, worked on in the open with whoever wants to learn.
-          </p>
-
-          <div className="flex flex-wrap gap-4">
-            <button
-              onClick={() => scrollTo('register')}
-              className="px-8 py-4 bg-accent-orange text-bg-base font-orbitron font-bold tracking-tactical uppercase text-sm hover:bg-accent-amber transition-colors"
-            >
-              Join the Club
-            </button>
-            <button
-              onClick={() => scrollTo('domains')}
-              className="px-8 py-4 border border-custom-border text-text-primary font-orbitron font-bold tracking-tactical uppercase text-sm hover:border-accent-orange hover:text-accent-orange transition-colors inline-flex items-center gap-2"
-            >
-              See the Domains <HiArrowRight />
-            </button>
+export default function Home(){
+  const [active,setActive]=useState(0);
+  const [time,setTime]=useState('00:00:00');
+  useEffect(()=>{const tick=()=>setTime(new Date().toLocaleTimeString('en-IN',{hour12:false}));tick();const id=setInterval(tick,1000);return()=>clearInterval(id)},[]);
+  const go=id=>document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+  const ActiveIcon = domains[active].icon;
+  return <>
+    <div id="home" className="astra-pro">
+      <div className="pro-progress"/>
+      <section className="pro-hero">
+        <div className="hero-grid-pro"/>
+        <div className="hero-meta left">ASTRA / NX-01<br/><b>DEFENCE R&amp;D COLLECTIVE</b></div>
+        <div className="hero-meta right">BMSIT&amp;M // BENGALURU<br/><b>13.1341° N / 77.5694° E</b></div>
+        <div className="hero-layout">
+          <div className="hero-main">
+            <div className="eyebrow"><i/> SYSTEM ONLINE <b>{time}</b></div>
+            <h1>ASTR<span>A</span><em>.</em></h1>
+            <div className="hero-rule"><span>ARMED SQUAD FOR TACTICAL READINESS &amp; AWARENESS</span><i/></div>
+            <h2>BUILD THE <strong>FUTURE.</strong></h2>
+            <p>A student defence-tech collective turning engineering into real systems — from autonomous machines and aerospace platforms to AI, RF and cyber.</p>
+            <div className="hero-actions"><button className="btn-primary" onClick={()=>go('register')}><HiPlay/> INITIATE MISSION</button><button className="btn-secondary" onClick={()=>go('domains')}>EXPLORE DOMAINS <HiArrowRight/></button></div>
+            <div className="hero-stats"><div><small>DOMAINS</small><b>04</b></div><div><small>PROJECTS</small><b>10+</b></div><div><small>MISSION</small><b>BUILD</b></div></div>
+          </div>
+          <div className="hero-flight">
+            <div className="hero-status-panel">
+              <div className="status-panel-head">
+                <span>NX-01 // MISSION CONTROL</span>
+                <b><i /> ONLINE</b>
+              </div>
+              <div className="status-panel-body">
+                <div className="status-emblem"><span>A</span><small>ASTRA</small></div>
+                <div className="status-copy">
+                  <small>ORBITAL DEFENCE NETWORK</small>
+                  <strong>SECURE LINK<br />ESTABLISHED</strong>
+                  <div className="status-line"><span>NODE</span><b>BLR-01</b></div>
+                  <div className="status-line"><span>ALTITUDE</span><b>408 KM</b></div>
+                  <div className="status-line"><span>READINESS</span><b>94%</b></div>
+                </div>
+              </div>
+              <div className="status-panel-foot"><span>VECTOR  /  18.4°</span><span>TRACKING  /  ACTIVE</span></div>
+            </div>
           </div>
         </div>
-
-        <button
-          onClick={() => scrollTo('about')}
-          aria-label="Scroll to learn more"
-          className="hidden md:flex absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-text-muted hover:text-accent-orange transition-colors"
-        >
-          <span className="label-badge text-[10px]">Scroll</span>
-          <HiArrowDown className="animate-bounce" />
-        </button>
+        <div className="hero-bottom"><span>SCROLL TO EXPLORE</span><button onClick={()=>go('about')}><HiArrowDown/></button><span>01 / MISSION PROFILE</span><span>02 / DOMAINS</span><span>03 / REGISTER</span></div>
       </section>
-
-      {/* Domain preview strip — quick orientation, full detail lives on the Domains section */}
-      <section className="border-y border-custom-border bg-bg-surface">
-        <div className="container mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-px bg-custom-border">
-          {domainPreview.map((d) => (
-            <button
-              key={d.title}
-              onClick={() => scrollTo('domains')}
-              className="bg-bg-surface px-6 py-6 flex flex-col items-start gap-3 hover:bg-bg-elevated transition-colors text-left"
-            >
-              <span className="text-2xl text-accent-orange">{d.icon}</span>
-              <span className="font-rajdhani uppercase tracking-badge text-sm text-text-primary">
-                {d.title}
-              </span>
-            </button>
-          ))}
-        </div>
-      </section>
-
-      {/* Short mission statement — sets up the About section that follows */}
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-100px' }}
-        className="container mx-auto px-6 py-24 max-w-3xl"
-      >
-        <p className="font-orbitron text-2xl md:text-4xl leading-snug text-text-primary">
-          Engineering that's meant to leave the workbench —
-          <span className="text-accent-orange"> prototypes, not slideshows.</span>
-        </p>
-      </motion.section>
+      <div className="pro-marquee"><div>{['DEFENCE TECHNOLOGY','AEROSPACE','AI & AUTONOMY','ROBOTICS','CYBER / RF','STRATEGIC AWARENESS'].map((x,i)=><span key={i}>{x}<b>◆</b></span>)}</div></div>
+      <section className="mission-pro" id="about"><div className="section-tag">01 <span>MISSION PROFILE</span></div><div className="mission-grid"><div><p className="display-line">ENGINEERING<br/><strong>WITH PURPOSE.</strong></p><p className="muted">ASTRA is built around one idea: give students a place to move beyond theory and build systems that matter.</p><button className="text-link" onClick={()=>go('contact')}>MEET THE COLLECTIVE <HiArrowRight/></button></div><div className="mission-visual"><div className="mission-card"><div><small>ASTRA / CORE PRINCIPLE</small><strong>BUILD SYSTEMS<br/>THAT MATTER.</strong></div><div className="mission-mark">A<span>01</span></div><div className="mission-metrics"><span>DEFENCE <b>ACTIVE</b></span><span>ENGINEERING <b>FIELD READY</b></span><span>COLLABORATION <b>OPEN</b></span></div></div></div></div></section>
+      <section className="domains-pro" id="domains"><div className="section-tag">02 <span>MISSION DOMAINS</span></div><div className="domain-head"><h2>CHOOSE YOUR<br/><strong>VECTOR.</strong></h2><p>Select a domain. The system will load its focus profile.</p></div><div className="domain-console"><div className="domain-list">{domains.map((d,i)=>{const Icon=d.icon;return <button key={d.code} className={active===i?'active':''} onMouseEnter={()=>setActive(i)} onFocus={()=>setActive(i)} onClick={()=>setActive(i)}><span>{d.no}</span><Icon/><div><b>{d.title}</b><small>{d.code}</small></div><HiArrowRight/></button>})}</div><div className="domain-detail"><div className="domain-orbit"><div className="domain-icon"><ActiveIcon /></div><span>ASTRA / {domains[active].code}</span></div><div><small>ACTIVE VECTOR</small><h3>{domains[active].title}</h3><p>{domains[active].desc}</p><div className="meter"><span style={{width:domains[active].value}}/></div><div className="detail-foot"><b>{domains[active].value}</b><span>{domains[active].metric}</span></div></div></div></div></section>
     </div>
-  );
-};
-
-export default Home;
+  </>;
+}
